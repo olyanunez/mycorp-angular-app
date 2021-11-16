@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -6,9 +7,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li *ngFor="let menu of menus" class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">{{menu.label}}</a>
-        </li>
+        <div *ngFor="let menu of menus">
+          <div  *ngIf="menu.subMenus.length > 0; else elseBlock">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{menu.label}}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li *ngFor="let subMenu of menu.subMenus">
+                  <a class="dropdown-item" [routerLink]="[subMenu.url]">{{subMenu.label}}</a>
+                </li>
+                <!-- <li><hr class="dropdown-divider"></li> -->
+              </ul>
+            </li>
+          </div>
+          <ng-template #elseBlock>
+            <a class="nav-link" aria-current="page" [routerLink]="[menu.url]">{{menu.label}}</a>
+          </ng-template>
+        </div>
       </ul>
     </div>
   </div>
